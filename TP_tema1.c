@@ -1,14 +1,19 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#define maxim_charactere_nume 300
+//adaugam biblioteca pentru a putea lucra cu texte 
+#include <string.h>
+#define maxim_charactere_nume=300
+
 /*
 Am folosit o abordare mai coplexa pentru a fii mai usor de implementat functiile viitoare din problema 2,3 
 
 */
 
 struct Pacient {
-    char name[maxim_charactere_nume];
+    char *name;
+    char *diagnostic;
+    int nr_consultatii;
     int varsta;
     float glicemie;
     int sys;
@@ -52,13 +57,23 @@ int main() {
                 scanf_s("%d", &n);
                 //alocam dinamic memoria dupa ce stim numarul de pacienti care urmeaza sa fie introdusi
                 pacient_list = (struct Pacient*)realloc(pacient_list, (total_pacienti + n) * sizeof(struct Pacient));
+                char buffer[300];
                 
 
    
 
                 for (int i = total_pacienti;i <= total_pacienti+ n - 1;i++) {
+
                     printf("\nNume:");
-                    scanf_s("%s", pacient_list[i].name, maxim_charactere_nume);
+                    scanf_s("%s", buffer, 300);
+                    pacient_list[i].name = (char*)malloc((strlen(buffer) + 1) * sizeof(char));
+                    size_t lungime_nume = strlen(buffer) + 1;
+                    strcpy_s(pacient_list[i].name, lungime_nume, buffer);
+                    printf("\diacnostic:");
+                    scanf_s("%s", buffer, 300);
+                    pacient_list[i].diagnostic = (char*)malloc((strlen(buffer) + 1) * sizeof(char));
+                    size_t lungime_diacnostic = strlen(buffer) + 1;
+                    strcpy_s(pacient_list[i].diagnostic, lungime_diacnostic, buffer);
                     printf("\nvarsta:");
                     scanf_s("%d", &pacient_list[i].varsta);
                     printf("\nglicemie:");
